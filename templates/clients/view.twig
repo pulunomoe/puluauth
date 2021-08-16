@@ -16,10 +16,10 @@
 
 	{{ html.header('Client details', [
 		html.actions([
-			{href: '/clients', btn: 'btn-outline-secondary', icon: 'arrow-left', label: 'Back to list'},
-			{href: '/clients/form/'~client.id, btn: 'btn-outline-success', icon: 'edit', label: 'Edit'},
-			{href: '/clients/newsecret/'~client.id, btn: 'btn-outline-warning', icon: 'key', label: 'Generate new secret'},
-			{href: '/clients/delete/'~client.id, btn: 'btn-outline-danger', icon: 'trash-2', label: 'Delete'}
+			{href: '/admin/clients', btn: 'btn-outline-secondary', icon: 'arrow-left', label: 'Back to list'},
+			{href: '/admin/clients/form/'~client.id, btn: 'btn-outline-success', icon: 'edit', label: 'Edit'},
+			{href: '/admin/clients/newsecret/'~client.id, btn: 'btn-outline-warning', icon: 'key', label: 'Generate new secret'},
+			{href: '/admin/clients/delete/'~client.id, btn: 'btn-outline-danger', icon: 'trash-2', label: 'Delete'}
 		])
 	]) }}
 

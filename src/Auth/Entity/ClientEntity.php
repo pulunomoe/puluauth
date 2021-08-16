@@ -10,4 +10,11 @@ class ClientEntity implements ClientEntityInterface
 {
 	use EntityTrait;
 	use ClientTrait;
+
+	public function __construct(string $identifier, string $name)
+	{
+		$this->identifier = $identifier;
+		$this->name = $name;
+		$this->isConfidential = true;
+	}
 }

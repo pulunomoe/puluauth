@@ -1,0 +1,20 @@
+{% extends '__layout.twig' %}
+{% import '__macros/html.twig' as html %}
+
+{% block scopesActive %}active{% endblock %}
+
+{% block main %}
+
+	{% include '__commons/success.twig' %}
+
+	{{ html.header('Scope details', [
+		html.actions([
+			{href: '/admin/scopes', btn: 'btn-outline-secondary', icon: 'arrow-left', label: 'Back to list'},
+			{href: '/admin/scopes/form/'~scope.id, btn: 'btn-outline-success', icon: 'edit', label: 'Edit'},
+			{href: '/admin/scopes/delete/'~scope.id, btn: 'btn-outline-danger', icon: 'trash-2', label: 'Delete'}
+		])
+	]) }}
+
+	{% include 'scopes/__details.twig' %}
+
+{% endblock %}

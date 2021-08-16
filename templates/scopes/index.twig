@@ -5,34 +5,34 @@
 	<link rel="stylesheet" href="/css/datatables.min.css">
 {% endblock %}
 
-{% block clientsActive %}active{% endblock %}
+{% block scopesActive %}active{% endblock %}
 
 {% block main %}
 
 	{% include '__commons/success.twig' %}
 
-	{{ html.header('Clients', [
+	{{ html.header('Scopes', [
 		html.actions([
-			{href: '/admin/clients/form', btn: 'btn-outline-primary', icon: 'plus', label: 'Add new client'}
+			{href: '/admin/scopes/form', btn: 'btn-outline-primary', icon: 'plus', label: 'Add new scope'}
 		])
 	]) }}
 
 	<table class="table table-hover align-middle">
 		<thead>
 			<tr>
-				<th>Client Name</th>
+				<th>Scope Name</th>
 				<th>Identifier</th>
 				<th width="1%"></th>
 			</tr>
 		</thead>
 		<tbody>
-			{% for client in clients %}
+			{% for scope in scopes %}
 				<tr>
-					<td>{{ client.name }}</td>
-					<td>{{ client.identifier }}</td>
+					<td>{{ scope.name }}</td>
+					<td>{{ scope.identifier }}</td>
 					<td>
 						<div class="btn-group btn-group-sm">
-							<a href="/admin/clients/view/{{ client.id }}" title="View client details" class="btn btn-sm btn-outline-info">
+							<a href="/admin/scopes/view/{{ scope.id }}" title="View scope details" class="btn btn-sm btn-outline-info">
 								<span data-feather="search"></span>
 							</a>
 						</div>

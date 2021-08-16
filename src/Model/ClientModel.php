@@ -8,16 +8,31 @@ class ClientModel extends Model implements FindOneInterface
 {
 	public function findAll(): array
 	{
-		$stmt = $this->prepare('SELECT id, identifier, name, description FROM clients ORDER BY name');
+		$stmt = $this->prepare('SELECT id, identifier, name, description FROM clients WHERE id > 1 ORDER BY name');
 		$stmt->execute();
 		return $stmt->fetchAll();
 	}
 
-	public function findOne(int $id): array
+	public function findOne(int $id): array|bool
 	{
-		$stmt = $this->prepare('SELECT id, identifier, name, description FROM clients WHERE id = ?');
+		$stmt = $this->prepare('SELECT id, identifier, name, description FROM clients WHERE id = ? AND id > 1');
 		$stmt->execute([$id]);
 		return  $stmt->fetch();
+	}
+
+	public function findOneByIdentifier(string $identifier): array|bool
+	{
+		$stmt = $this->prepare('SELECT id, identifier, name, description FROM clients WHERE identifier = ? AND id > 1');
+		$stmt->execute([$identifier]);
+		return  $stmt->fetch();
+	}
+
+	public function validateSecret(string $identifier, string $secret): bool
+	{
+		$stmt = $this->prepare('SELECT secret FROM clients WHERE identifier = ? AND id > 1');
+		$stmt->execute([$identifier]);
+
+		return password_verify($secret, $stmt->fetchColumn() ?? '');
 	}
 
 	public function create(string $name, string $description): array
@@ -37,7 +52,7 @@ class ClientModel extends Model implements FindOneInterface
 
 	public function update(int $id, string $name, string $description): void
 	{
-		$stmt = $this->prepare('UPDATE clients SET name = ?, description = ? WHERE id = ?');
+		$stmt = $this->prepare('UPDATE clients SET name = ?, description = ? WHERE id = ? AND id > 1');
 		$stmt->execute([$name, $description, $id]);
 	}
 
@@ -46,10 +61,16 @@ class ClientModel extends Model implements FindOneInterface
 		$secret = password_hash(Uuid::uuid4(), PASSWORD_DEFAULT);
 		$encryptedSecret = password_hash($secret, PASSWORD_DEFAULT);
 
-		$stmt = $this->prepare('UPDATE clients SET secret = ? WHERE id = ?');
+		$stmt = $this->prepare('UPDATE clients SET secret = ? WHERE id = ? AND id > 1');
 		$stmt->execute([$encryptedSecret, $id]);
 
 		return $secret;
+	}
+
+	public function updateAdminPassword(string $password): void
+	{
+		$stmt = $this->prepare('UPDATE clients SET secret = ? WHERE id = 1');
+		$stmt->execute([password_hash($password, PASSWORD_DEFAULT)]);
 	}
 
 	public function delete(int $id): void
@@ -58,7 +79,7 @@ class ClientModel extends Model implements FindOneInterface
 		$stmt->execute([$id]);
 	}
 
-	public function validate(?int $id, string $name)
+	public function validate(?int $id, string $name): array
 	{
 		$errors = [];
 

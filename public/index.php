@@ -5,6 +5,7 @@ use Com\Pulunomoe\PuluAuth\Auth\Repository\ClientRepository;
 use Com\Pulunomoe\PuluAuth\Auth\Repository\ScopeRepository;
 use Com\Pulunomoe\PuluAuth\Controller\AuthController;
 use Com\Pulunomoe\PuluAuth\Controller\ClientController;
+use Com\Pulunomoe\PuluAuth\Controller\ScopeController;
 use Defuse\Crypto\Key;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\CryptKey;
@@ -27,9 +28,9 @@ $twig->addExtension(new DebugExtension());
 $twig->getEnvironment()->addGlobal('session', $_SESSION);
 $app->add(TwigMiddleware::create($app, $twig));
 
-$clientRepository = new ClientRepository();
-$scopeRepository = new ScopeRepository();
-$accessTokenRepository = new AccessTokenRepository();
+$clientRepository = new ClientRepository($pdo);
+$scopeRepository = new ScopeRepository($pdo);
+$accessTokenRepository = new AccessTokenRepository($pdo);
 
 $privateKey = new CryptKey('file://'.__DIR__.'/../keys/private.key', null, false);
 $encryptionKey = trim(file_get_contents('file://'.__DIR__.'/../keys/defuse.key'));
@@ -43,16 +44,24 @@ $authServer->enableGrantType($clientCredentialsGrant, $accessTokenTtl);
 
 $authController = new AuthController($authServer);
 $clientController = new ClientController($pdo);
+$scopeController = new ScopeController($pdo);
 
 $app->post('/access_token', [$authController, 'accessToken']);
 
-$app->get('/clients', [$clientController, 'index']);
-$app->get('/clients/view/{clientId}', [$clientController, 'view']);
-$app->get('/clients/form[/{clientId}]', [$clientController, 'form']);
-$app->post('/clients/form', [$clientController, 'formPost']);
-$app->get('/clients/newsecret/{clientId}', [$clientController, 'newSecret']);
-$app->post('/clients/newsecret', [$clientController, 'newSecretPost']);
-$app->get('/clients/delete/{clientId}', [$clientController, 'delete']);
-$app->post('/clients/delete', [$clientController, 'deletePost']);
+$app->get('/admin/clients', [$clientController, 'index']);
+$app->get('/admin/clients/view/{clientId}', [$clientController, 'view']);
+$app->get('/admin/clients/form[/{clientId}]', [$clientController, 'form']);
+$app->post('/admin/clients/form', [$clientController, 'formPost']);
+$app->get('/admin/clients/newsecret/{clientId}', [$clientController, 'newSecret']);
+$app->post('/admin/clients/newsecret', [$clientController, 'newSecretPost']);
+$app->get('/admin/clients/delete/{clientId}', [$clientController, 'delete']);
+$app->post('/admin/clients/delete', [$clientController, 'deletePost']);
+
+$app->get('/admin/scopes', [$scopeController, 'index']);
+$app->get('/admin/scopes/view/{scopeId}', [$scopeController, 'view']);
+$app->get('/admin/scopes/form[/{scopeId}]', [$scopeController, 'form']);
+$app->post('/admin/scopes/form', [$scopeController, 'formPost']);
+$app->get('/admin/scopes/delete/{scopeId}', [$scopeController, 'delete']);
+$app->post('/admin/scopes/delete', [$scopeController, 'deletePost']);
 
 $app->run();

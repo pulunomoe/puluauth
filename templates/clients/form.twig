@@ -11,18 +11,18 @@
 	{% if not client %}
 		{% set header = 'Add new client' %}
 		{% set actions = [
-			{href: '/clients', btn: 'btn-outline-secondary', icon: 'arrow-left', label: 'Back to list'}
+			{href: '/admin/clients', btn: 'btn-outline-secondary', icon: 'arrow-left', label: 'Back to list'}
 		] %}
 	{% else %}
 		{% set header = 'Edit existing client' %}
 		{% set actions = [
-			{href: '/clients/view/'~client.id, btn: 'btn-outline-secondary', icon: 'arrow-left', label: 'Back to details'}
+			{href: '/admin/clients/view/'~client.id, btn: 'btn-outline-secondary', icon: 'arrow-left', label: 'Back to details'}
 		] %}
 	{% endif %}
 
 	{{ html.header(header, [html.actions(actions)]) }}
 
-	<form action="/clients/form" method="post">
+	<form action="/admin/clients/form" method="post">
 		{{ form.csrf(csrf) }}
 		{{ form.hidden('id', client.id) }}
 		{{ form.input('name', 'Client name', client.name, true) }}

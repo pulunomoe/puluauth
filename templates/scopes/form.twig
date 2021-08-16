@@ -1,0 +1,33 @@
+{% extends '__layout.twig' %}
+{% import '__macros/html.twig' as html %}
+{% import '__macros/form.twig' as form %}
+
+{% block scopesActive %}active{% endblock %}
+
+{% block main %}
+
+	{% include '__commons/errors.twig' %}
+
+	{% if not scope %}
+		{% set header = 'Add new scope' %}
+		{% set actions = [
+			{href: '/admin/scopes', btn: 'btn-outline-secondary', icon: 'arrow-left', label: 'Back to list'}
+		] %}
+	{% else %}
+		{% set header = 'Edit existing scope' %}
+		{% set actions = [
+			{href: '/admin/scopes/view/'~scope.id, btn: 'btn-outline-secondary', icon: 'arrow-left', label: 'Back to details'}
+		] %}
+	{% endif %}
+
+	{{ html.header(header, [html.actions(actions)]) }}
+
+	<form action="/admin/scopes/form" method="post">
+		{{ form.csrf(csrf) }}
+		{{ form.hidden('id', scope.id) }}
+		{{ form.input('name', 'Scope name', scope.name, true) }}
+		{{ form.textarea('description', 'Description', scope.description) }}
+		{{ form.submit() }}
+	</form>
+
+{% endblock %}

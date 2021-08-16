@@ -59,10 +59,10 @@ class ClientController extends Controller
 		$name = $request->getParam('name');
 		$description = $request->getParam('description');
 
-		$errors = $this->clientModel->validate($clientId, $name);
+		$errors = $this->clientModel->validateSecret($clientId, $name);
 		if (!empty($errors)) {
 			$this->setFlash('errors', $errors);
-			$url = empty($clientId) ? '/clients/form' : '/clients/form/'.$clientId;
+			$url = empty($clientId) ? '/admin/clients/form' : '/admin/clients/form/'.$clientId;
 			return $response->withRedirect($url);
 		}
 
@@ -70,11 +70,11 @@ class ClientController extends Controller
 			$client = $this->clientModel->create($name, $description);
 			$this->setFlash('clientSecret', $client['secret']);
 			$this->setFlash('success', 'Client has been successfully created');
-			return $response->withRedirect('/clients/view/'.$client['id']);
+			return $response->withRedirect('/admin/clients/view/'.$client['id']);
 		} else {
 			$this->clientModel->update($clientId, $name, $description);
 			$this->setFlash('success', 'Client has been successfully updated');
-			return $response->withRedirect('/clients/view/'.$clientId);
+			return $response->withRedirect('/admin/clients/view/'.$clientId);
 		}
 	}
 
@@ -98,7 +98,7 @@ class ClientController extends Controller
 		$this->setFlash('clientSecret', $this->clientModel->newSecret($clientId));
 
 		$this->setFlash('success', 'Client has been successfully updated');
-		return $response->withRedirect('/clients/view/'.$clientId);
+		return $response->withRedirect('/admin/clients/view/'.$clientId);
 	}
 
 	public function delete(ServerRequest $request, Response $response, array $args): ResponseInterface
@@ -122,6 +122,6 @@ class ClientController extends Controller
 		$this->clientModel->delete($clientId);
 
 		$this->setFlash('success', 'Client has been successfully deleted');
-		return $response->withRedirect('/clients');
+		return $response->withRedirect('/admin/clients');
 	}
 }

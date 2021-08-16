@@ -1,0 +1,27 @@
+{% extends '__layout.twig' %}
+{% import '__macros/html.twig' as html %}
+{% import '__macros/form.twig' as form %}
+
+{% block scopesActive %}active{% endblock %}
+
+{% block main %}
+
+	{% include '__commons/errors.twig' %}
+
+	{{ html.header('Delete existing scope', [
+		html.actions([
+			{href: '/admin/scopes/view/'~scope.id, btn: 'btn-outline-secondary', icon: 'arrow-left', label: 'Back to details'}
+		])
+	]) }}
+
+	{% include 'scopes/__details.twig' %}
+
+	<p class="text-danger fw-bold">Are you sure you want to delete this scope?</p>
+
+	<form action="/admin/scopes/delete" method="post">
+		{{ form.csrf(csrf) }}
+		{{ form.hidden('id', scope.id) }}
+		{{ form.confirm() }}
+	</form>
+
+{% endblock %}

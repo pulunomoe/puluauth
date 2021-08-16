@@ -2,30 +2,52 @@
 
 namespace Com\Pulunomoe\PuluAuth\Auth\Repository;
 
+use Com\Pulunomoe\PuluAuth\Auth\Entity\AccessTokenEntity;
+use Com\Pulunomoe\PuluAuth\Model\TokenModel;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
+use PDO;
 
 class AccessTokenRepository implements AccessTokenRepositoryInterface
 {
+	private TokenModel $tokenModel;
 
-	public function getNewToken(ClientEntityInterface $clientEntity, array $scopes, $userIdentifier = null)
+	public function __construct(PDO $pdo)
 	{
-		// TODO: Implement getNewToken() method.
+		$this->tokenModel = new TokenModel($pdo);
 	}
 
-	public function persistNewAccessToken(AccessTokenEntityInterface $accessTokenEntity)
+	public function getNewToken(ClientEntityInterface $clientEntity, array $scopes, $userIdentifier = null): AccessTokenEntity
 	{
-		// TODO: Implement persistNewAccessToken() method.
+		$accessTokenEntity = new AccessTokenEntity();
+		$accessTokenEntity->setClient($clientEntity);
+		$accessTokenEntity->setUserIdentifier($userIdentifier);
+
+		foreach ($scopes as $scope) {
+			$accessTokenEntity->addScope($scope);
+		}
+
+		return $accessTokenEntity;
+	}
+
+	public function persistNewAccessToken(AccessTokenEntityInterface $accessTokenEntity): void
+	{
+		$this->tokenModel->create(
+			$accessTokenEntity->getClient()->getIdentifier(),
+			$accessTokenEntity->getIdentifier(),
+			$accessTokenEntity->getExpiryDateTime(),
+			$accessTokenEntity->getScopes()
+		);
 	}
 
 	public function revokeAccessToken($tokenId)
 	{
-		// TODO: Implement revokeAccessToken() method.
+		$this->tokenModel->delete($tokenId);
 	}
 
-	public function isAccessTokenRevoked($tokenId)
+	public function isAccessTokenRevoked($tokenId): bool
 	{
-		// TODO: Implement isAccessTokenRevoked() method.
+		return $this->tokenModel->findOneByIdentider($tokenId);
 	}
 }

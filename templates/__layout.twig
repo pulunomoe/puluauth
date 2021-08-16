@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>PuluAuth</title>
+	<title>PuluAuth Admin Console</title>
 	<link rel="stylesheet" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/css/custom.css">
 	{% block head %}{% endblock %}
@@ -10,14 +10,21 @@
 <body>
 
 	<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-		<span class="navbar-brand col-md-3 col-lg-2 me-0 px-3">PuluAuth</span>
+		<span class="navbar-brand col-md-3 col-lg-2 me-0 px-3">PuluAuth Admin Console</span>
 		<button type="button" class="navbar-toggler position-absolute d-md-none collapsed" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="w-100"></div>
 		<div class="navbar-nav">
 			<div class="nav-item text-nowrap">
-				<a href="/logout" class="nav-link px-3">
+				<a href="/admin/password" class="nav-link px-3">
+					<span data-feather="key"></span> Change password
+				</a>
+			</div>
+		</div>
+		<div class="navbar-nav">
+			<div class="nav-item text-nowrap">
+				<a href="/admin/logout" class="nav-link px-3">
 					<span data-feather="log-out"></span> Logout
 				</a>
 			</div>
@@ -30,12 +37,12 @@
 				<div class="position-sticky pt-3">
 					<ul class="nav flex-column">
 						<li class="nav-item">
-							<a href="/clients" class="nav-link {% block clientsActive %}{% endblock %}">
+							<a href="/admin/clients" class="nav-link {% block clientsActive %}{% endblock %}">
 								<span data-feather="users"></span> Clients
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="/scopes" class="nav-link">
+							<a href="/admin/scopes" class="nav-link {% block scopesActive %}{% endblock %}">
 								<span data-feather="award"></span> Scopes
 							</a>
 						</li>

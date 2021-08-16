@@ -2,3 +2,4 @@ puluauth.mwb.bak
 composer.lock
 .idea
 vendor
+public/adminer

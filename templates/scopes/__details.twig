@@ -1,0 +1,9 @@
+{% import '__macros/html.twig' as html %}
+
+<div class="border p-3 mb-3 bg-light">
+	{{ html.definitions([
+		{label: 'Identifier', value: scope.identifier},
+		{label: 'Scope Name', value: scope.name},
+		{label: 'Description', value: scope.description}
+	]) }}
+</div>

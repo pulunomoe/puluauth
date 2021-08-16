@@ -10,7 +10,7 @@
 
 	{{ html.header('Delete existing client', [
 		html.actions([
-			{href: '/clients/view/'~client.id, btn: 'btn-outline-secondary', icon: 'arrow-left', label: 'Back to details'}
+			{href: '/admin/clients/view/'~client.id, btn: 'btn-outline-secondary', icon: 'arrow-left', label: 'Back to details'}
 		])
 	]) }}
 
@@ -18,7 +18,7 @@
 
 	<p class="text-danger fw-bold">Are you sure you want to delete this client?</p>
 
-	<form action="/clients/delete" method="post">
+	<form action="/admin/clients/delete" method="post">
 		{{ form.csrf(csrf) }}
 		{{ form.hidden('id', client.id) }}
 		{{ form.confirm() }}
