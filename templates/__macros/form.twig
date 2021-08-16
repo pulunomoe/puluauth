@@ -1,0 +1,49 @@
+{% macro csrf(csrf) %}
+	<input type="hidden" name="csrf_key" value="{{ csrf.key }}">
+	<input type="hidden" name="csrf_value" value="{{ csrf.value }}">
+{% endmacro %}
+
+{% macro hidden(name, value) %}
+	{% if value %}
+		<input type="hidden" name="{{ name }}" id="f-{{ name }}" value="{{ value }}">
+	{% endif %}
+{% endmacro %}
+
+{% macro input(name, label, value, required=false, type='text', step='0') %}
+	<div class="row mb-3">
+		<label for="f-{{ name }}" class="col-md-3 col-lg-2 col-form-label">{{ label }}{% if required %}*{% endif %}</label>
+		<div class="col-md-9 col-lg-4">
+			<input type="{{ type }}" {% if type == 'number' %}step="{{ step }}"{% endif%} name="{{ name }}" id="f-{{ name }}" value="{{ value ?? '' }}" class="form-control form-control-sm" {% if required %}required{% endif %}>
+		</div>
+	</div>
+{% endmacro %}
+
+{% macro textarea(name, label, value, rows = 3) %}
+	<div class="row mb-3">
+		<label for="f-{{ name }}" class="col-md-3 col-lg-2 col-form-label">{{ label }}</label>
+		<div class="col-md-9 col-lg-4">
+			<textarea name="{{ name }}" id="f-{{ name }}" rows="{{ rows }}" class="form-control form-control-sm">{{ value ?? '' }}</textarea>
+		</div>
+	</div>
+{% endmacro %}
+
+{% macro submit(btn='btn-outline-primary', icon='check', label='Save') %}
+	<div class="row">
+		<div class="col-md-3 col-lg-2">
+		</div>
+		<div class="col-md-8 col-lg-4">
+			<button type="submit" class="btn {{ btn }} btn-sm me-2">
+				<span data-feather="{{ icon }}"></span> {{ label }}
+			</button>
+			<button type="reset" class="btn btn-outline-warning btn-sm">
+				<span data-feather="corner-up-left"></span> Reset
+			</button>
+		</div>
+	</div>
+{% endmacro %}
+
+{% macro confirm(btn='btn-outline-danger', icon='check', label='Yes, I\'m sure') %}
+	<button type="submit" class="btn {{ btn }} btn-sm me-2">
+		<span data-feather="{{ icon }}"></span> {{ label }}
+	</button>
+{% endmacro %}

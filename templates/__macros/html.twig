@@ -1,0 +1,48 @@
+{% macro header(header, elements, ht='h1', hc='h2', class='pt-3 pb-2 mb-3') %}
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center {{ class }} border-bottom">
+		<{{ ht }} class="{{ hc }}">{{ header }}</{{ ht }}>
+		{% for element in elements %}
+			{{ element }}
+		{% endfor %}
+	</div>
+{% endmacro %}
+
+{% macro actions(actions, dropdown=false) %}
+	<div class="btn-group">
+		{% if dropdown %}
+			<div class="dropdown">
+				<button class="btn btn-sm btn-outline-primary dropdown-toggle px-3" type="button" data-bs-toggle="dropdown">Aksi</button>
+				<ul class="dropdown-menu">
+		{% endif %}
+		{% for action in actions %}
+			{% if dropdown %}
+				<li>
+					{% if action.divider %}
+						<hr class="dropdown-divider">
+					{% else %}
+						<a href="{{ action.href }}" class="dropdown-item {{ action.btn }}">
+							<span data-feather="{{ action.icon }}"></span> {{ action.label }}
+						</a>
+					{% endif %}
+				</li>
+			{% else %}
+				<a href="{{ action.href }}" class="btn btn-sm {{ action.btn }}">
+					<span data-feather="{{ action.icon }}"></span> {{ action.label }}
+				</a>
+			{% endif %}
+		{% endfor %}
+		{% if dropdown %}
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+{% endmacro %}
+
+{% macro definitions(definitions, dtmd=3, dtlg=2, ddmd=9, ddlg=10) %}
+	<dl class="row">
+		{% for definition in definitions %}
+			<dt class="col-md-{{ dtmd }} col-lg-{{ dtlg }}">{{ definition.label }}</dt>
+			<dd class="col-md-{{ ddmd }} col-lg-{{ ddlg }}">{{ definition.value }}</dd>
+		{% endfor %}
+	</dl>
+{% endmacro %}

@@ -1,0 +1,28 @@
+{% extends '__layout.twig' %}
+{% import '__macros/html.twig' as html %}
+
+{% block clientsActive %}active{% endblock %}
+
+{% block main %}
+
+	{% include '__commons/success.twig' %}
+
+	{% if clientSecret %}
+		<div class="alert alert-warning alert-dismissible">
+			Please save the new client secret: <strong>{{ clientSecret }}</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+		</div>
+	{% endif %}
+
+	{{ html.header('Client details', [
+		html.actions([
+			{href: '/clients', btn: 'btn-outline-secondary', icon: 'arrow-left', label: 'Back to list'},
+			{href: '/clients/form/'~client.id, btn: 'btn-outline-success', icon: 'edit', label: 'Edit'},
+			{href: '/clients/newsecret/'~client.id, btn: 'btn-outline-warning', icon: 'key', label: 'Generate new secret'},
+			{href: '/clients/delete/'~client.id, btn: 'btn-outline-danger', icon: 'trash-2', label: 'Delete'}
+		])
+	]) }}
+
+	{% include 'clients/__details.twig' %}
+
+{% endblock %}

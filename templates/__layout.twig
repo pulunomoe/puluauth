@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>PuluAuth</title>
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/custom.css">
+	{% block head %}{% endblock %}
+</head>
+<body>
+
+	<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+		<span class="navbar-brand col-md-3 col-lg-2 me-0 px-3">PuluAuth</span>
+		<button type="button" class="navbar-toggler position-absolute d-md-none collapsed" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="w-100"></div>
+		<div class="navbar-nav">
+			<div class="nav-item text-nowrap">
+				<a href="/logout" class="nav-link px-3">
+					<span data-feather="log-out"></span> Logout
+				</a>
+			</div>
+		</div>
+	</header>
+
+	<div class="container-fluid">
+		<div class="row">
+			<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+				<div class="position-sticky pt-3">
+					<ul class="nav flex-column">
+						<li class="nav-item">
+							<a href="/clients" class="nav-link {% block clientsActive %}{% endblock %}">
+								<span data-feather="users"></span> Clients
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/scopes" class="nav-link">
+								<span data-feather="award"></span> Scopes
+							</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<main class="col-md-9 ms-sm-auto mt-md-3 col-lg-10 px-md-4">
+				{% block main %}{% endblock %}
+			</main>
+		</div>
+	</div>
+
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.bundle.min.js"></script>
+	<script src="/js/feather.min.js"></script>
+
+	{% block script %}{% endblock %}
+
+	<script>
+        (function () {
+            feather.replace()
+        })()
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+{% extends '__layout.twig' %}
+{% import '__macros/html.twig' as html %}
+
+{% block head %}
+	<link rel="stylesheet" href="/css/datatables.min.css">
+{% endblock %}
+
+{% block clientsActive %}active{% endblock %}
+
+{% block main %}
+
+	{% include '__commons/success.twig' %}
+
+	{{ html.header('Clients', [
+		html.actions([
+			{href: '/clients/form', btn: 'btn-outline-primary', icon: 'plus', label: 'Add new client'}
+		])
+	]) }}
+
+	<table class="table table-hover align-middle">
+		<thead>
+			<tr>
+				<th>Client Name</th>
+				<th>Identifier</th>
+				<th width="1%"></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for client in clients %}
+				<tr>
+					<td>{{ client.name }}</td>
+					<td>{{ client.identifier }}</td>
+					<td>
+						<div class="btn-group btn-group-sm">
+							<a href="/clients/view/{{ client.id }}" title="View client details" class="btn btn-sm btn-outline-info">
+								<span data-feather="search"></span>
+							</a>
+						</div>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}
+
+{% block script %}
+	<script src="/js/datatables.min.js"></script>
+	<script>
+        (function () {
+			$('table').DataTable()
+		})()
+	</script>
+{% endblock %}

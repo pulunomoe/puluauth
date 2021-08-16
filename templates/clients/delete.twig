@@ -1,0 +1,27 @@
+{% extends '__layout.twig' %}
+{% import '__macros/html.twig' as html %}
+{% import '__macros/form.twig' as form %}
+
+{% block clientsActive %}active{% endblock %}
+
+{% block main %}
+
+	{% include '__commons/errors.twig' %}
+
+	{{ html.header('Delete existing client', [
+		html.actions([
+			{href: '/clients/view/'~client.id, btn: 'btn-outline-secondary', icon: 'arrow-left', label: 'Back to details'}
+		])
+	]) }}
+
+	{% include 'clients/__details.twig' %}
+
+	<p class="text-danger fw-bold">Are you sure you want to delete this client?</p>
+
+	<form action="/clients/delete" method="post">
+		{{ form.csrf(csrf) }}
+		{{ form.hidden('id', client.id) }}
+		{{ form.confirm() }}
+	</form>
+
+{% endblock %}
