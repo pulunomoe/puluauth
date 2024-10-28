@@ -1,0 +1,9 @@
+.idea
+.bruno
+.coverage
+logs
+!logs/.gitkeep
+vendor
+.env
+.env.test
+.php-cs-fixer.cache
