@@ -3,16 +3,17 @@
 namespace App\Domain\Administrator;
 
 use App\Domain\Entity;
+use App\Domain\Exception\ImmutableEntityCodeException;
 
 class Administrator extends Entity
 {
     public function __construct(
         ?int $id,
-        private ?AdministratorCode $code,
+        ?AdministratorCode $code,
         private string $name,
         private string $email
     ) {
-        parent::__construct($id);
+        parent::__construct($id, $code);
     }
 
     public function getCode(): ?AdministratorCode
@@ -20,9 +21,13 @@ class Administrator extends Entity
         return $this->code;
     }
 
-    public function setCode(AdministratorCode $code): void
+    public function setCode(string $code): void
     {
-        $this->code = $code;
+        if ($this->code != null) {
+            throw new ImmutableEntityCodeException($this);
+        }
+
+        $this->code = new AdministratorCode($code);
     }
 
     public function getName(): string

@@ -4,6 +4,8 @@ namespace Tests\Unit\Domain\Administrator;
 
 use App\Domain\Administrator\Administrator;
 use App\Domain\Administrator\AdministratorCode;
+use App\Domain\Exception\ImmutableEntityCodeException;
+use App\Domain\Exception\ImmutableEntityIdException;
 use PHPUnit\Framework\TestCase;
 
 class AdministratorTest extends TestCase
@@ -50,6 +52,10 @@ class AdministratorTest extends TestCase
         $this->assertEquals($this->email, $administrator->getEmail());
     }
 
+    /**
+     * @throws ImmutableEntityIdException
+     * @throws ImmutableEntityCodeException
+     */
     public function testConstructorWithNullIdAndCode(): void
     {
         $administrator = new Administrator(null, null, $this->name, $this->email);
@@ -58,22 +64,37 @@ class AdministratorTest extends TestCase
         $this->assertNull($administrator->getCode());
         $this->assertEquals($this->name, $administrator->getName());
         $this->assertEquals($this->email, $administrator->getEmail());
+
+        $id = 123;
+        $code = new AdministratorCode('98765432-10ab-4cde-8123-567890abcdef');
+
+        $administrator->setId($id);
+        $administrator->setCode($code->getValue());
+
+        $this->assertEquals($id, $administrator->getId());
+        $this->assertEquals($code->getValue(), $administrator->getCode()->getValue());
     }
 
     public function testSetters(): void
     {
         $administrator = $this->createTestAdministrator();
-        $newCode = new AdministratorCode('98765432-10ab-4cde-8123-567890abcdef');
         $newName = 'Shee Rakami';
         $newEmail = 'srkm@example.com';
 
-        $administrator->setCode($newCode);
         $administrator->setName($newName);
         $administrator->setEmail($newEmail);
 
-        $this->assertEquals($newCode, $administrator->getCode());
         $this->assertEquals($newName, $administrator->getName());
         $this->assertEquals($newEmail, $administrator->getEmail());
+    }
+
+    public function testImmutableCode(): void
+    {
+        $administrator = $this->createTestAdministrator();
+
+        $this->expectException(ImmutableEntityCodeException::class);
+        $this->expectExceptionMessage('Entity code cannot be modified after it is set. Entity: ' . get_class($administrator));
+        $administrator->setCode('98765432-10ab-4cde-8123-567890abcdef');
     }
 
     public function testSerialize(): void

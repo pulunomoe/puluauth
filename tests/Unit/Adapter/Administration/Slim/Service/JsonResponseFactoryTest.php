@@ -4,6 +4,7 @@ namespace Tests\Unit\Adapter\Administration\Slim\Service;
 
 use App\Adapter\Administration\Slim\Service\JsonResponseFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use PHPUnit\Framework\MockObject\Exception;
 use Tests\Psr7TestCase;
 
 class JsonResponseFactoryTest extends Psr7TestCase
@@ -13,6 +14,9 @@ class JsonResponseFactoryTest extends Psr7TestCase
         JsonResponseFactory::setPsr17Factory(new Psr17Factory());
     }
 
+    /**
+     * @throws Exception
+     */
     public function testSetPsr17Factory()
     {
         $psr17Factory = $this->createStub(Psr17Factory::class);
