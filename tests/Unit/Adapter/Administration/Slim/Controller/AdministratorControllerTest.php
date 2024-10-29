@@ -5,7 +5,7 @@ namespace Tests\Unit\Adapter\Administration\Slim\Controller;
 use App\Adapter\Administration\Slim\Controller\AdministratorController;
 use App\Adapter\Administration\Slim\Exception\HttpBadRequestException;
 use App\Application\Exception\AdapterException;
-use App\Application\UseCase\Administration\Administrator\FindOneAdministratorByCodeUseCase;
+use App\Application\UseCase\Administration\Administrator\FindOneAdministratorByCode;
 use App\Domain\Administrator\Administrator;
 use PHPUnit\Framework\MockObject\Exception;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,7 +14,7 @@ use Tests\Unit\Domain\Administrator\AdministratorTest;
 
 class AdministratorControllerTest extends Psr7TestCase
 {
-    private FindOneAdministratorByCodeUseCase $findAdministrator;
+    private FindOneAdministratorByCode $findAdministrator;
     private AdministratorController $administratorController;
 
     private Administrator $administrator;
@@ -26,7 +26,7 @@ class AdministratorControllerTest extends Psr7TestCase
     {
         parent::setUp();
 
-        $this->findAdministrator = $this->createMock(FindOneAdministratorByCodeUseCase::class);
+        $this->findAdministrator = $this->createMock(FindOneAdministratorByCode::class);
 
         $this->administratorController = new AdministratorController($this->findAdministrator);
 

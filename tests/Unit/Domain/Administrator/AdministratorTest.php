@@ -28,7 +28,8 @@ class AdministratorTest extends TestCase
         AdministratorCode $code = new AdministratorCode('12345678-90ab-4cde-8123-567890abcdef'),
         string $name = 'Foo Boo Kee',
         string $email = 'fbk@example.com'
-    ): Administrator {
+    ): Administrator
+    {
         return new Administrator($id, $code, $name, $email);
     }
 

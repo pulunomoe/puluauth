@@ -4,7 +4,7 @@ namespace Tests\Unit\Application\UseCase\Administrator;
 
 use App\Application\Exception\AdapterException;
 use App\Application\Port\Repository\AdministratorRepositoryPort;
-use App\Application\UseCase\Administration\Administrator\FindOneAdministratorByCodeUseCase;
+use App\Application\UseCase\Administration\Administrator\FindOneAdministratorByCode;
 use App\Domain\Administrator\Administrator;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
@@ -13,7 +13,7 @@ use Tests\Unit\Domain\Administrator\AdministratorTest;
 class FindOneAdministratorByCodeTest extends TestCase
 {
     private AdministratorRepositoryPort $administratorRepositoryPort;
-    private FindOneAdministratorByCodeUseCase $findOneAdministratorByCode;
+    private FindOneAdministratorByCode $findOneAdministratorByCode;
 
     private Administrator $administrator;
 
@@ -24,7 +24,7 @@ class FindOneAdministratorByCodeTest extends TestCase
     {
         $this->administratorRepositoryPort = $this->createStub(AdministratorRepositoryPort::class);
 
-        $this->findOneAdministratorByCode = new FindOneAdministratorByCodeUseCase($this->administratorRepositoryPort);
+        $this->findOneAdministratorByCode = new FindOneAdministratorByCode($this->administratorRepositoryPort);
 
         $this->administrator = AdministratorTest::createAdministrator();
     }

@@ -6,7 +6,7 @@ use App\Adapter\Administration\Slim\Middleware\ExceptionHandlingMiddleware;
 use App\Adapter\Repository\Pdo\AdministratorRepository;
 use App\Application\Mediator\AuthenticationMediator;
 use App\Application\Port\Repository\AdministratorRepositoryPort;
-use App\Application\UseCase\Administration\Administrator\FindOneAdministratorByCodeUseCase;
+use App\Application\UseCase\Administration\Administrator\FindOneAdministratorByCode;
 use App\Mediator\Authentication\ApiKeyAuthenticationMediator;
 use Defuse\Crypto\Key;
 use Monolog\Handler\FilterHandler;
@@ -69,8 +69,8 @@ return [
         return new AdministratorRepository($container->get(PDO::class));
     },
 
-    FindOneAdministratorByCodeUseCase::class => function (ContainerInterface $container): FindOneAdministratorByCodeUseCase {
-        return new FindOneAdministratorByCodeUseCase($container->get(AdministratorRepositoryPort::class));
+    FindOneAdministratorByCode::class => function (ContainerInterface $container): FindOneAdministratorByCode {
+        return new FindOneAdministratorByCode($container->get(AdministratorRepositoryPort::class));
     },
 
     AuthenticationMiddleware::class => function (ContainerInterface $container): AuthenticationMiddleware {
@@ -87,6 +87,6 @@ return [
     },
 
     AdministratorController::class => function (ContainerInterface $container): AdministratorController {
-        return new AdministratorController($container->get(FindOneAdministratorByCodeUseCase::class));
+        return new AdministratorController($container->get(FindOneAdministratorByCode::class));
     }
 ];
