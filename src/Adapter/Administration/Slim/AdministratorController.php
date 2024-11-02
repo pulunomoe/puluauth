@@ -1,22 +1,17 @@
 <?php
 
-namespace App\Adapter\Administration\Slim\Controller;
+namespace App\Adapter\Administration\Slim;
 
 use App\Adapter\Administration\Slim\Exception\HttpBadRequestException;
 use App\Adapter\Administration\Slim\Service\JsonResponseFactory;
 use App\Application\Exception\AdapterException;
-use App\Application\UseCase\Administration\Administrator\FindOneAdministratorByCode;
+use App\Application\UseCase\Administration\Administrator\FindOneAdministratorByCodeUseCase;
 use App\Domain\Administrator\AdministratorCode;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-readonly class AdministratorController
+readonly class AdministratorController extends Controller
 {
-    public function __construct(
-        private FindOneAdministratorByCode $findAdministrator
-    ) {
-    }
-
     /**
      * @throws HttpBadRequestException
      * @throws AdapterException
@@ -28,7 +23,9 @@ readonly class AdministratorController
             throw new HttpBadRequestException('Parameter `code` is required');
         }
 
-        $result = $this->findAdministrator->execute(new AdministratorCode($code));
+        $findOneAdministratorByCode = $this->get(FindOneAdministratorByCodeUseCase::class);
+
+        $result = $findOneAdministratorByCode->execute(new AdministratorCode($code));
         $result = $result ? $result->serialize() : [];
 
         return JsonResponseFactory::create(200, $result);

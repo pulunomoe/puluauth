@@ -3,7 +3,7 @@
 namespace Tests\Unit\Adapter\Administration\Slim\Middleware;
 
 use App\Adapter\Administration\Slim\Exception\HttpNotFoundException;
-use App\Adapter\Administration\Slim\Middleware\ExceptionHandlingMiddleware;
+use App\Adapter\Administration\Slim\Middleware\ExceptionHandleMiddleware;
 use Exception;
 use Monolog\Logger;
 
@@ -11,7 +11,7 @@ class ExceptionHandlerMiddlewareTest extends MiddlewareTestCase
 {
     private Logger $logger;
     private bool $debugEnabled = true;
-    private ExceptionHandlingMiddleware $exceptionHandlerMiddleware;
+    private ExceptionHandleMiddleware $exceptionHandlerMiddleware;
 
     protected function setUp(): void
     {
@@ -19,7 +19,7 @@ class ExceptionHandlerMiddlewareTest extends MiddlewareTestCase
 
         $this->logger = $this->createMock(Logger::class);
 
-        $this->exceptionHandlerMiddleware = new ExceptionHandlingMiddleware(
+        $this->exceptionHandlerMiddleware = new ExceptionHandleMiddleware(
             $this->logger,
             $this->debugEnabled
         );
@@ -72,7 +72,7 @@ class ExceptionHandlerMiddlewareTest extends MiddlewareTestCase
 
     public function testWithOtherExceptionWithDebugDisabled(): void
     {
-        $this->exceptionHandlerMiddleware = new ExceptionHandlingMiddleware(
+        $this->exceptionHandlerMiddleware = new ExceptionHandleMiddleware(
             $this->logger,
             false
         );

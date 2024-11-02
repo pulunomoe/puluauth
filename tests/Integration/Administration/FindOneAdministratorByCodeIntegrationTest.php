@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integration\Administrator;
+namespace Tests\Integration\Administration;
 
 use App\Domain\Service\CodeGenerator;
 use Defuse\Crypto\Crypto;

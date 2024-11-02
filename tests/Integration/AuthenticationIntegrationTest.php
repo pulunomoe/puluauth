@@ -1,15 +1,16 @@
 <?php
 
+namespace Tests\Integration;
 
 use App\Domain\Service\CodeGenerator;
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Exception\BadFormatException;
 use Defuse\Crypto\Exception\EnvironmentIsBrokenException;
 use Defuse\Crypto\Key;
+use PDO;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Tests\Integration\IntegrationTestCase;
 
 class AuthenticationIntegrationTest extends IntegrationTestCase
 {

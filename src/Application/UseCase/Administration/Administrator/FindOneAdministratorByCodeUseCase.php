@@ -10,7 +10,7 @@ use App\Domain\Administrator\AdministratorCode;
 readonly class FindOneAdministratorByCodeUseCase
 {
     public function __construct(
-        private AdministratorRepositoryPort $administratorPort
+        private AdministratorRepositoryPort $administratorRepository
     ) {
     }
 
@@ -19,6 +19,6 @@ readonly class FindOneAdministratorByCodeUseCase
      */
     public function execute(AdministratorCode $code): ?Administrator
     {
-        return $this->administratorPort->findOneByCode($code);
+        return $this->administratorRepository->findOneByCode($code);
     }
 }

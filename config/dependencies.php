@@ -1,12 +1,10 @@
 <?php
 
-use App\Adapter\Administration\Slim\Controller\AdministratorController;
-use App\Adapter\Administration\Slim\Middleware\AuthenticationMiddleware;
-use App\Adapter\Administration\Slim\Middleware\ExceptionHandlingMiddleware;
+use App\Adapter\Administration\Slim\AdministratorController;
 use App\Adapter\Repository\Pdo\AdministratorRepository;
 use App\Application\Mediator\AuthenticationMediator;
 use App\Application\Port\Repository\AdministratorRepositoryPort;
-use App\Application\UseCase\Administration\Administrator\FindOneAdministratorByCode;
+use App\Application\UseCase\Administration\Administrator\FindOneAdministratorByCodeUseCase;
 use App\Mediator\Authentication\ApiKeyAuthenticationMediator;
 use Defuse\Crypto\Key;
 use Monolog\Handler\FilterHandler;
@@ -32,7 +30,6 @@ return [
 
     Logger::class => function (): Logger {
         $logger = new Logger('puluauth');
-
         $logDirectory = __DIR__ . '/../logs/';
 
         $appLogHandler = new StreamHandler($logDirectory . 'app.log', Level::Info);
@@ -69,24 +66,11 @@ return [
         return new AdministratorRepository($container->get(PDO::class));
     },
 
-    FindOneAdministratorByCode::class => function (ContainerInterface $container): FindOneAdministratorByCode {
-        return new FindOneAdministratorByCode($container->get(AdministratorRepositoryPort::class));
-    },
-
-    AuthenticationMiddleware::class => function (ContainerInterface $container): AuthenticationMiddleware {
-        return new AuthenticationMiddleware(
-            $container->get(AuthenticationMediator::class)
-        );
-    },
-
-    ExceptionHandlingMiddleware::class => function (ContainerInterface $container): ExceptionHandlingMiddleware {
-        return new ExceptionHandlingMiddleware(
-            $container->get(Logger::class),
-            $_ENV['DEBUG']
-        );
+    FindOneAdministratorByCodeUseCase::class => function (ContainerInterface $container): FindOneAdministratorByCodeUseCase {
+        return new FindOneAdministratorByCodeUseCase($container->get(AdministratorRepositoryPort::class));
     },
 
     AdministratorController::class => function (ContainerInterface $container): AdministratorController {
-        return new AdministratorController($container->get(FindOneAdministratorByCode::class));
+        return new AdministratorController($container->get(FindOneAdministratorByCodeUseCase::class));
     }
 ];

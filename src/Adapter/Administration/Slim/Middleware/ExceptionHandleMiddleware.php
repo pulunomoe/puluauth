@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-readonly class ExceptionHandlingMiddleware implements MiddlewareInterface
+readonly class ExceptionHandleMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private Logger $logger,

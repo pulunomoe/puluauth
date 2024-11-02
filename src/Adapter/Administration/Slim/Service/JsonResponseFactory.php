@@ -7,21 +7,30 @@ use Psr\Http\Message\ResponseInterface;
 
 class JsonResponseFactory
 {
-    public static Psr17Factory $psr17Factory;
+    public static ?Psr17Factory $psr17Factory = null;
 
     public static function setPsr17Factory(Psr17Factory $psr17Factory): void
     {
         self::$psr17Factory = $psr17Factory;
     }
 
+    private static function getPsr17Factory(): Psr17Factory
+    {
+        if (self::$psr17Factory == null) {
+            self::$psr17Factory = new Psr17Factory();
+        }
+        return self::$psr17Factory;
+    }
+
     public static function create(int $statusCode, ?array $json): ResponseInterface
     {
-        $stream = self::$psr17Factory->createStream();
+        $factory = self::getPsr17Factory();
+        $stream = $factory->createStream();
         if (is_array($json)) {
             $stream->write(json_encode($json));
             $stream->rewind();
         }
-        return self::$psr17Factory->createResponse($statusCode)
+        return $factory->createResponse($statusCode)
             ->withHeader('Content-Type', 'application/json')
             ->withBody($stream);
     }

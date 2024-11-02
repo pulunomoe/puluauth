@@ -1,5 +1,6 @@
 <?php
 
+use App\Adapter\Administration\Slim\SlimAdministration;
 use DI\ContainerBuilder;
 use Dotenv\Dotenv;
 
@@ -14,3 +15,6 @@ $container = $containerBuilder->build();
 
 global $app;
 $app = require __DIR__ . '/../config/bootstrap.php';
+$administrationPort = new SlimAdministration($app);
+$administrationPort->registerMiddlewares();
+$administrationPort->registerRoutes();

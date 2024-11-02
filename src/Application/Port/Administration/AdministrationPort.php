@@ -4,8 +4,9 @@ namespace App\Application\Port\Administration;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-interface AdministrationPort
+interface AdministrationPort extends RequestHandlerInterface
 {
-    public function handleRequest(ServerRequestInterface $request): ResponseInterface;
+    public function handle(ServerRequestInterface $request): ResponseInterface;
 }

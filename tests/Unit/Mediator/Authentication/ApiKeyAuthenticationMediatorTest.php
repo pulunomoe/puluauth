@@ -1,6 +1,6 @@
 <?php
 
-namespace Mediator\Authentication;
+namespace Tests\Unit\Mediator\Authentication;
 
 use App\Application\Exception\AuthenticationException;
 use App\Application\Exception\MediatorException;

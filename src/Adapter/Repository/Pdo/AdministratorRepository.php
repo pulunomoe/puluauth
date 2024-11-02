@@ -8,7 +8,7 @@ use App\Domain\Administrator\Administrator;
 use App\Domain\Administrator\AdministratorCode;
 use PDOException;
 
-class AdministratorRepository extends PdoRepository implements AdministratorRepositoryPort
+readonly class AdministratorRepository extends PdoRepository implements AdministratorRepositoryPort
 {
     /**
      * @throws AdapterException

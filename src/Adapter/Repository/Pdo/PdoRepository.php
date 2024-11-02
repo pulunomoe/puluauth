@@ -4,9 +4,9 @@ namespace App\Adapter\Repository\Pdo;
 
 use PDO;
 
-abstract class PdoRepository
+abstract readonly class PdoRepository
 {
-    public function __construct(protected readonly PDO $pdo)
+    public function __construct(protected PDO $pdo)
     {
     }
 }
